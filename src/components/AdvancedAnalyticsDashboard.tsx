@@ -176,38 +176,61 @@ const AdvancedAnalyticsDashboard: React.FC<AdvancedAnalyticsDashboardProps> = ({
     const totalSessions = measurements.length;
     const totalMeasurements = measurements.filter(m => m.measurements).length;
     
-    // Calculate growth rate
-    let totalGrowth = 0;
+    // Calculate growth rate and trends
+    let totalLengthGrowth = 0;
+    let totalGirthGrowth = 0;
     let growthCount = 0;
+    let currentStreak = 0;
+    let longestStreak = 0;
+    let tempStreak = 0;
     
-    if (measurements.length >= 2) {
-      for (let i = 1; i < measurements.length; i++) {
-        const prev = measurements[i - 1].measurements;
-        const curr = measurements[i].measurements;
+    // Sort measurements by date
+    const sortedMeasurements = measurements
+      .filter(m => m.timestamp)
+      .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    
+    if (sortedMeasurements.length >= 2) {
+      for (let i = 1; i < sortedMeasurements.length; i++) {
+        const prev = sortedMeasurements[i - 1].measurements;
+        const curr = sortedMeasurements[i].measurements;
         
         if (prev && curr) {
           const lengthGrowth = (curr.length || 0) - (prev.length || 0);
           const girthGrowth = (curr.girth || 0) - (prev.girth || 0);
           
           if (lengthGrowth > 0 || girthGrowth > 0) {
-            totalGrowth += (lengthGrowth + girthGrowth) / 2;
+            totalLengthGrowth += lengthGrowth;
+            totalGirthGrowth += girthGrowth;
             growthCount++;
+            tempStreak++;
+          } else {
+            if (tempStreak > longestStreak) {
+              longestStreak = tempStreak;
+            }
+            tempStreak = 0;
           }
         }
       }
+      
+      // Check final streak
+      if (tempStreak > longestStreak) {
+        longestStreak = tempStreak;
+      }
+      currentStreak = tempStreak;
     }
     
-    const averageGrowthRate = growthCount > 0 ? totalGrowth / growthCount : 0;
-    
-    // Calculate streak (simplified)
-    const currentStreak = Math.min(measurements.length, 7);
-    const longestStreak = Math.max(currentStreak, 15);
-    
-    // Calculate total time (estimated)
-    const totalTime = measurements.length * 20; // 20 minutes per session
+    const averageLengthGrowth = growthCount > 0 ? totalLengthGrowth / growthCount : 0;
+    const averageGirthGrowth = growthCount > 0 ? totalGirthGrowth / growthCount : 0;
+    const averageGrowthRate = (averageLengthGrowth + averageGirthGrowth) / 2;
     
     // Calculate consistency score
-    const consistencyScore = Math.min(100, (measurements.length / 30) * 100);
+    const daysSinceFirst = sortedMeasurements.length > 0 
+      ? Math.ceil((Date.now() - new Date(sortedMeasurements[0].timestamp).getTime()) / (1000 * 60 * 60 * 24))
+      : 0;
+    const consistencyScore = daysSinceFirst > 0 ? Math.min(100, (totalMeasurements / daysSinceFirst) * 100) : 0;
+    
+    // Calculate total time (estimate based on sessions)
+    const totalTime = totalSessions * 5; // Assume 5 minutes per session
     
     setAnalyticsData({
       totalSessions,
@@ -218,6 +241,66 @@ const AdvancedAnalyticsDashboard: React.FC<AdvancedAnalyticsDashboardProps> = ({
       totalTime,
       consistencyScore
     });
+    
+    // Update achievements based on new data
+    updateAchievements(sortedMeasurements, goals);
+  };
+
+  const updateAchievements = (measurements: any[], goals: Goal[]) => {
+    const updatedAchievements = achievements.map(achievement => {
+      let progress = 0;
+      let unlocked = achievement.unlocked;
+      
+      switch (achievement.id) {
+        case 'first-measurement':
+          progress = measurements.length > 0 ? 1 : 0;
+          unlocked = measurements.length > 0;
+          break;
+          
+        case 'week-streak':
+          progress = Math.min(7, analyticsData.currentStreak);
+          unlocked = analyticsData.currentStreak >= 7;
+          break;
+          
+        case 'month-streak':
+          progress = Math.min(30, analyticsData.currentStreak);
+          unlocked = analyticsData.currentStreak >= 30;
+          break;
+          
+        case 'length-gain':
+          if (measurements.length >= 2) {
+            const first = measurements[0].measurements?.length || 0;
+            const latest = measurements[measurements.length - 1].measurements?.length || 0;
+            progress = Math.min(0.5, Math.max(0, latest - first));
+            unlocked = (latest - first) >= 0.5;
+          }
+          break;
+          
+        case 'girth-gain':
+          if (measurements.length >= 2) {
+            const first = measurements[0].measurements?.girth || 0;
+            const latest = measurements[measurements.length - 1].measurements?.girth || 0;
+            progress = Math.min(0.25, Math.max(0, latest - first));
+            unlocked = (latest - first) >= 0.25;
+          }
+          break;
+          
+        case 'goal-setter':
+          progress = goals.length > 0 ? 1 : 0;
+          unlocked = goals.length > 0;
+          break;
+      }
+      
+      return {
+        ...achievement,
+        progress,
+        unlocked,
+        unlockedDate: unlocked && !achievement.unlocked ? new Date().toISOString() : achievement.unlockedDate
+      };
+    });
+    
+    setAchievements(updatedAchievements);
+    secureStorage.setItem('achievements', updatedAchievements);
   };
 
   const createGoal = () => {

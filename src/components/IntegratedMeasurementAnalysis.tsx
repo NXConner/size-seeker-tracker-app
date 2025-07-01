@@ -148,12 +148,6 @@ const IntegratedMeasurementAnalysis: React.FC<IntegratedMeasurementAnalysisProps
   const [toolSize, setToolSize] = useState(10); // Size in cm/inches
   const [showGrid, setShowGrid] = useState(false);
   const [gridSize, setGridSize] = useState(1); // Grid size in cm/inches
-  
-  // Measurement tools state
-  const [selectedTool, setSelectedTool] = useState<'ruler' | 'tape' | 'caliper' | 'protractor' | 'grid' | 'compass' | 'none'>('none');
-  const [toolSize, setToolSize] = useState(10); // Size in cm/inches
-  const [showGrid, setShowGrid] = useState(false);
-  const [gridSize, setGridSize] = useState(1); // Grid size in cm/inches
   const [measurementHistory, setMeasurementHistory] = useState<Array<{tool: string, value: number, unit: string, timestamp: number}>>([]);
   
   // Enhanced measurement tools
