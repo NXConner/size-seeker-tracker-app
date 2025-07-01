@@ -768,7 +768,7 @@ const HealthSafety: React.FC<HealthSafetyProps> = ({ onBack }) => {
             <CardContent className="space-y-4">
               <div>
                 <label className="text-sm font-medium">Event Type</label>
-                <Select value={newEvent.type} onValueChange={(value: any) => setNewEvent(prev => ({ ...prev, type: value }))}>
+                <Select value={newEvent.type} onValueChange={(value: any) => setNewEvent(prev => ({ ...prev, type: value }))} title="Event Type">
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -783,7 +783,7 @@ const HealthSafety: React.FC<HealthSafetyProps> = ({ onBack }) => {
 
               <div>
                 <label className="text-sm font-medium">Severity</label>
-                <Select value={newEvent.severity} onValueChange={(value: any) => setNewEvent(prev => ({ ...prev, severity: value }))}>
+                <Select value={newEvent.severity} onValueChange={(value: any) => setNewEvent(prev => ({ ...prev, severity: value }))} title="Severity">
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

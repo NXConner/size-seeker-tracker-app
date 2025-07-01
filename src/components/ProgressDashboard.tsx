@@ -329,7 +329,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
       <div className="flex gap-4">
         <div>
           <label className="text-sm font-medium">Time Range</label>
-          <Select value={timeRange} onValueChange={(value: any) => setTimeRange(value)}>
+          <Select value={timeRange} onValueChange={(value: any) => setTimeRange(value)} title="Time Range">
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -344,7 +344,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
         </div>
         <div>
           <label className="text-sm font-medium">Metric</label>
-          <Select value={selectedMetric} onValueChange={(value: any) => setSelectedMetric(value)}>
+          <Select value={selectedMetric} onValueChange={(value: any) => setSelectedMetric(value)} title="Metric">
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>

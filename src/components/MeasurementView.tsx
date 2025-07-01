@@ -536,6 +536,7 @@ const MeasurementView: React.FC<MeasurementViewProps> = ({ onBack }) => {
                   value={snapMode}
                   onChange={(e) => setSnapMode(e.target.value as any)}
                   className="w-full p-2 border rounded"
+                  title="Snap Mode"
                 >
                   <option value="auto">Auto Detect</option>
                   <option value="manual">Manual Snap</option>

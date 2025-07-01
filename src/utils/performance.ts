@@ -183,6 +183,179 @@ export const performanceMonitor = {
   }
 };
 
+// Core Web Vitals monitoring
+export const coreWebVitals = {
+  // Largest Contentful Paint
+  lcp: {
+    value: 0,
+    observer: null as PerformanceObserver | null,
+    
+    start() {
+      if ('PerformanceObserver' in window) {
+        this.observer = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const lastEntry = entries[entries.length - 1];
+          this.value = lastEntry.startTime;
+          console.log('LCP:', this.value);
+        });
+        this.observer.observe({ entryTypes: ['largest-contentful-paint'] });
+      }
+    },
+    
+    stop() {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+    }
+  },
+
+  // First Input Delay
+  fid: {
+    value: 0,
+    observer: null as PerformanceObserver | null,
+    
+    start() {
+      if ('PerformanceObserver' in window) {
+        this.observer = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry) => {
+            this.value = entry.processingStart - entry.startTime;
+            console.log('FID:', this.value);
+          });
+        });
+        this.observer.observe({ entryTypes: ['first-input'] });
+      }
+    },
+    
+    stop() {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+    }
+  },
+
+  // Cumulative Layout Shift
+  cls: {
+    value: 0,
+    observer: null as PerformanceObserver | null,
+    
+    start() {
+      if ('PerformanceObserver' in window) {
+        this.observer = new PerformanceObserver((list) => {
+          let clsValue = 0;
+          for (const entry of list.getEntries()) {
+            if (!entry.hadRecentInput) {
+              clsValue += (entry as any).value;
+            }
+          }
+          this.value = clsValue;
+          console.log('CLS:', this.value);
+        });
+        this.observer.observe({ entryTypes: ['layout-shift'] });
+      }
+    },
+    
+    stop() {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+    }
+  },
+
+  // Start monitoring all Core Web Vitals
+  startMonitoring() {
+    this.lcp.start();
+    this.fid.start();
+    this.cls.start();
+  },
+
+  // Stop monitoring all Core Web Vitals
+  stopMonitoring() {
+    this.lcp.stop();
+    this.fid.stop();
+    this.cls.stop();
+  },
+
+  // Get all metrics
+  getMetrics() {
+    return {
+      lcp: this.lcp.value,
+      fid: this.fid.value,
+      cls: this.cls.value
+    };
+  }
+};
+
+// Memory leak detection
+export const memoryLeakDetector = {
+  snapshots: [] as Array<{ timestamp: number; memory: any }>,
+  interval: null as NodeJS.Timeout | null,
+  
+  start(intervalMs: number = 5000) {
+    this.interval = setInterval(() => {
+      if ('memory' in performance) {
+        const memory = (performance as any).memory;
+        this.snapshots.push({
+          timestamp: Date.now(),
+          memory: {
+            used: memory.usedJSHeapSize,
+            total: memory.totalJSHeapSize,
+            limit: memory.jsHeapSizeLimit
+          }
+        });
+        
+        // Keep only last 20 snapshots
+        if (this.snapshots.length > 20) {
+          this.snapshots.shift();
+        }
+        
+        // Check for potential memory leaks
+        this.detectLeaks();
+      }
+    }, intervalMs);
+  },
+  
+  stop() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+  },
+  
+  detectLeaks() {
+    if (this.snapshots.length < 5) return;
+    
+    const recent = this.snapshots.slice(-5);
+    const first = recent[0];
+    const last = recent[recent.length - 1];
+    
+    const growthRate = (last.memory.used - first.memory.used) / 
+                      (last.timestamp - first.timestamp);
+    
+    if (growthRate > 1000) { // 1KB per second growth
+      console.warn('Potential memory leak detected:', {
+        growthRate: `${(growthRate / 1024).toFixed(2)}KB/s`,
+        currentUsage: `${(last.memory.used / 1024 / 1024).toFixed(2)}MB`
+      });
+    }
+  },
+  
+  getMemoryTrend() {
+    if (this.snapshots.length < 2) return null;
+    
+    const first = this.snapshots[0];
+    const last = this.snapshots[this.snapshots.length - 1];
+    
+    return {
+      start: first.memory.used,
+      end: last.memory.used,
+      growth: last.memory.used - first.memory.used,
+      growthRate: (last.memory.used - first.memory.used) / 
+                  (last.timestamp - first.timestamp)
+    };
+  }
+};
+
 // Web Worker utilities for heavy computations
 export class WorkerPool {
   private workers: Worker[] = [];

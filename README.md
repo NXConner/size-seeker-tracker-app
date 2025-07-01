@@ -1,58 +1,51 @@
 # Size Seeker Tracker
 
-A comprehensive, privacy-focused measurement tracking application with advanced analytics, offline support, and intelligent recommendations.
+Advanced measurement tracking and analysis tool with AI-powered insights, health monitoring, and comprehensive progress analytics.
 
 ## 🚀 Features
 
-### Core Functionality
-- **Unified Measurement Interface** - Capture, analyze, and track measurements in one integrated platform
-- **Multiple Measurement Tools** - Ruler, tape measure, caliper, protractor, compass, and grid overlays
-- **Unit Conversion** - Seamless switching between centimeters and inches
-- **Image Upload & Preview** - Upload images with automatic preview and measurement overlay
-- **Real-time Analysis** - Instant measurement analysis with visual feedback
+### Core Measurement Tools
+- **Integrated Measurement Analysis** - Camera capture, image upload, measurement analysis
+- **Advanced Measurement View** - Reference points, automatic measurement, image analysis
+- **Snap-to-Shape Detection** - AI-powered object detection and measurement
+- **Multi-tool Support** - Ruler, tape, caliper, protractor, compass tools
 
-### Advanced Analytics
-- **Progress Dashboard** - Track growth trends, streaks, and consistency scores
-- **Goal Setting & Tracking** - Set personalized goals with progress monitoring
-- **Achievement System** - Unlock achievements for milestones and consistency
-- **Smart Recommendations** - AI-powered suggestions based on your progress patterns
-- **Trend Detection** - Identify plateaus and positive growth trends
+### Health & Safety
+- **Health Analysis** - Peyronie's disease detection, STD indicators, skin conditions
+- **Health Safety Component** - Health event tracking, rest day scheduling, safety guidelines
+- **Injury Prevention** - Over-training warnings, medical consultation reminders
+- **Health Metrics** - Fatigue, pain, stress, sleep quality tracking
+
+### Analytics & Progress
+- **Progress Dashboard** - Trend analysis, goal tracking, predictive analytics
+- **Advanced Charts** - Interactive data visualization with Recharts
+- **Goal Setting** - Personalized goal creation and tracking
+- **Achievement System** - Gamification with progress milestones
 
 ### Data Management
-- **Secure Local Storage** - All data stored locally on your device for privacy
-- **Offline Support** - Full functionality without internet connection
-- **Data Synchronization** - Queue changes for sync when back online
-- **Export/Import** - Backup and restore your data securely
+- **Secure Storage** - Encrypted localStorage and IndexedDB
+- **Data Export/Import** - JSON and CSV export functionality
+- **Image Storage** - Secure image storage with compression
+- **Backup System** - Local and cloud backup capabilities
 
-### User Experience
-- **Responsive Design** - Optimized for desktop, tablet, and mobile devices
-- **Dark Mode Support** - Comfortable viewing in any lighting condition
-- **Accessibility** - WCAG compliant with keyboard navigation and screen reader support
-- **PWA Ready** - Install as a native app on your device
+### PWA Features
+- **Offline Support** - Full offline functionality with sync
+- **App Installation** - Install as native app on mobile/desktop
+- **Push Notifications** - Reminder system for sessions
+- **Background Sync** - Automatic data synchronization
 
-## 📱 Screenshots
+## 📱 Installation
 
-### Main Dashboard
-![Dashboard](https://via.placeholder.com/800x400/4F46E5/FFFFFF?text=Dashboard+View)
+### Web App
+1. Visit the application URL
+2. Click "Install" when prompted for PWA installation
+3. Or use the browser's "Add to Home Screen" option
 
-### Measurement Interface
-![Measurement](https://via.placeholder.com/800x400/10B981/FFFFFF?text=Measurement+Tools)
-
-### Analytics Dashboard
-![Analytics](https://via.placeholder.com/800x400/F59E0B/FFFFFF?text=Analytics+View)
-
-## 🛠️ Installation
-
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-- Modern web browser
-
-### Quick Start
+### Development Setup
 ```bash
 # Clone the repository
-git clone https://github.com/NXConner/size-seeker-tracker-app.git
-cd size-seeker-tracker-app
+git clone https://github.com/yourusername/size-seeker-tracker.git
+cd size-seeker-tracker
 
 # Install dependencies
 npm install
@@ -60,11 +53,6 @@ npm install
 # Start development server
 npm run dev
 
-# Open http://localhost:3000 in your browser
-```
-
-### Production Build
-```bash
 # Build for production
 npm run build
 
@@ -72,122 +60,254 @@ npm run build
 npm run preview
 ```
 
-## 📖 Usage Guide
-
-### Getting Started
-1. **First Measurement** - Use the camera or upload an image to capture your first measurement
-2. **Set Goals** - Define your target measurements and timeline
-3. **Track Progress** - Regular measurements help monitor your progress
-4. **Review Analytics** - Check your dashboard for insights and trends
-
-### Measurement Tools
-- **Ruler** - Linear measurements with adjustable scale
-- **Tape Measure** - Flexible measurements for curved surfaces
-- **Caliper** - Precise measurements with digital readout
-- **Protractor** - Angular measurements and analysis
-- **Compass** - Circular measurements and area calculations
-- **Grid Overlay** - Reference grid for consistent measurements
-
-### Analytics Features
-- **Progress Charts** - Visual representation of your growth over time
-- **Streak Tracking** - Monitor consistency and build habits
-- **Goal Progress** - Track progress toward your targets
-- **Achievement System** - Unlock badges for milestones
-
-## 🔧 Configuration
-
-### Environment Variables
-Create a `.env` file in the root directory:
-```env
-# Development settings
-VITE_APP_TITLE=Size Seeker Tracker
-VITE_APP_VERSION=1.0.0
-
-# Feature flags
-VITE_ENABLE_ANALYTICS=true
-VITE_ENABLE_OFFLINE=true
-VITE_ENABLE_PWA=true
-```
-
-### Customization
-- **Theme Colors** - Modify `tailwind.config.ts` for custom branding
-- **Measurement Units** - Add support for additional units in `src/utils/`
-- **Analytics** - Extend analytics in `src/components/AdvancedAnalyticsDashboard.tsx`
-
-## 🏗️ Project Structure
-
-```
-src/
-├── components/          # React components
-│   ├── ui/             # Reusable UI components
-│   ├── IntegratedMeasurementAnalysis.tsx
-│   ├── AdvancedAnalyticsDashboard.tsx
-│   ├── SmartNotifications.tsx
-│   └── OfflineIndicator.tsx
-├── contexts/           # React contexts
-├── hooks/              # Custom React hooks
-├── lib/                # Utility libraries
-├── pages/              # Page components
-├── utils/              # Utility functions
-└── App.tsx             # Main application component
-```
-
-## 🔒 Privacy & Security
-
-- **Local Storage Only** - All data stored on your device
-- **No Cloud Sync** - Your data never leaves your device
-- **Secure Storage** - Encrypted local storage for sensitive data
-- **No Analytics** - No tracking or data collection
-
-## 🧪 Testing
-
+### Android App
 ```bash
-# Run unit tests
-npm run test
+# Install Capacitor CLI
+npm install -g @capacitor/cli
 
-# Run integration tests
-npm run test:integration
-
-# Run accessibility tests
-npm run test:a11y
-```
-
-## 📦 Build & Deploy
-
-### Android Build
-```bash
-# Install Capacitor
-npm install @capacitor/cli @capacitor/android
-
-# Build for Android
-npm run build
+# Add Android platform
 npx cap add android
+
+# Build and sync
+npm run build
 npx cap sync android
+
+# Open in Android Studio
 npx cap open android
 ```
 
-### Web Deployment
+## 🎯 User Guide
+
+### Getting Started
+1. **First Measurement**
+   - Click "New Measurement" on the dashboard
+   - Choose camera capture or image upload
+   - Follow the calibration wizard for accurate measurements
+   - Set reference points for length and girth
+   - Save your measurement
+
+2. **Setting Goals**
+   - Navigate to Progress Dashboard
+   - Click "Add Goal"
+   - Choose goal type (length, girth, or both)
+   - Set target value and deadline
+   - Track progress over time
+
+3. **Health Monitoring**
+   - Access Health & Safety section
+   - Track health metrics (fatigue, pain, stress, sleep)
+   - Log health events and symptoms
+   - Follow safety guidelines and recommendations
+
+4. **Progress Analysis**
+   - View trends in Progress Dashboard
+   - Analyze consistency and growth patterns
+   - Get 30-day predictions based on your data
+   - Export data for external analysis
+
+### Measurement Tips
+- **Consistent Positioning** - Use the same position and angle for all measurements
+- **Good Lighting** - Ensure adequate lighting for accurate image analysis
+- **Reference Objects** - Use known-size objects for calibration
+- **Regular Tracking** - Measure at consistent intervals (weekly recommended)
+
+### Safety Guidelines
+- **Start Slow** - Begin with shorter sessions and lower pressure
+- **Listen to Your Body** - Stop if you experience pain or discomfort
+- **Rest Days** - Include rest days in your routine
+- **Medical Consultation** - Consult healthcare professionals for concerns
+
+## 🔧 API Documentation
+
+### Core Components
+
+#### MeasurementView
+```typescript
+interface MeasurementViewProps {
+  onBack: () => void;
+}
+
+// Features: Image analysis, measurement tools, reference points
+```
+
+#### IntegratedMeasurementAnalysis
+```typescript
+interface IntegratedMeasurementAnalysisProps {
+  onBack?: () => void;
+}
+
+// Features: Camera capture, AI analysis, progress tracking
+```
+
+#### ProgressDashboard
+```typescript
+interface ProgressDashboardProps {
+  onBack: () => void;
+}
+
+// Features: Trend analysis, goal tracking, data export
+```
+
+### Data Storage
+
+#### Secure Storage
+```typescript
+// Encrypted localStorage operations
+secureStorage.setItem(key: string, value: any): void
+secureStorage.getItem(key: string): any
+secureStorage.removeItem(key: string): void
+secureStorage.clear(): void
+```
+
+#### Image Storage
+```typescript
+// IndexedDB image operations
+imageStorage.saveImage(imageData: StoredImage): Promise<void>
+imageStorage.getImage(id: string): Promise<StoredImage | null>
+imageStorage.getAllImages(): Promise<StoredImage[]>
+imageStorage.deleteImage(id: string): Promise<void>
+```
+
+### Utility Functions
+
+#### Image Analysis
+```typescript
+// AI-powered image analysis
+analyzeImage(imageData: string): Promise<AnalysisResult>
+detectObjects(imageData: string): Promise<ObjectDetectionResult>
+snapToShape(imageData: string, point: Point): Promise<SnapResult>
+```
+
+#### AI Recommendations
+```typescript
+// Personalized recommendations
+getRoutineRecommendations(measurements: Measurement[]): Routine[]
+getHealthRecommendations(healthData: HealthMetrics): Recommendation[]
+predictProgress(measurements: Measurement[]): Prediction
+```
+
+## 🚀 Deployment
+
+### Web Deployment (Vercel)
 ```bash
-# Build for production
+# Install Vercel CLI
+npm install -g vercel
+
+# Deploy
+vercel --prod
+```
+
+### Web Deployment (Netlify)
+```bash
+# Build the project
 npm run build
 
-# Deploy to any static hosting service
-# (Netlify, Vercel, GitHub Pages, etc.)
+# Deploy to Netlify
+# Upload dist folder to Netlify dashboard
+```
+
+### Android Deployment
+```bash
+# Build the project
+npm run build
+
+# Sync with Capacitor
+npx cap sync android
+
+# Build Android APK
+cd android
+./gradlew assembleRelease
+```
+
+### Environment Variables
+```env
+# Development
+VITE_API_URL=http://localhost:3000
+VITE_ENCRYPTION_KEY=your-encryption-key
+
+# Production
+VITE_API_URL=https://your-api-domain.com
+VITE_ENCRYPTION_KEY=production-encryption-key
+```
+
+## 🔒 Security
+
+### Data Privacy
+- **Local Storage** - All data stored locally on device
+- **Encryption** - Sensitive data encrypted with AES-256
+- **No Cloud Sync** - Data never transmitted to external servers
+- **User Control** - Full control over data export and deletion
+
+### Security Features
+- **Input Validation** - All user inputs validated and sanitized
+- **XSS Protection** - React's built-in XSS protection
+- **CSP Headers** - Content Security Policy implementation
+- **HTTPS Only** - Secure connections in production
+
+## 🧪 Testing
+
+### Running Tests
+```bash
+# Unit tests
+npm test
+
+# Watch mode
+npm run test:watch
+
+# Coverage report
+npm run test:coverage
+
+# E2E tests
+npm run e2e
+```
+
+### Test Structure
+```
+src/
+├── __tests__/
+│   ├── components/
+│   ├── utils/
+│   └── hooks/
+├── cypress/
+│   ├── e2e/
+│   └── fixtures/
+```
+
+## 📊 Performance
+
+### Optimization Features
+- **Code Splitting** - Lazy loading of components
+- **Image Compression** - Automatic image optimization
+- **Bundle Analysis** - Webpack bundle analyzer
+- **Caching** - Service worker caching strategy
+
+### Performance Monitoring
+```bash
+# Bundle analysis
+npm run analyze
+
+# Lighthouse audit
+npm run performance
+
+# Bundle size check
+npm run bundle-size
 ```
 
 ## 🤝 Contributing
 
+### Development Setup
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new features
+5. Submit a pull request
 
-### Development Guidelines
-- Follow TypeScript best practices
-- Write unit tests for new features
-- Ensure accessibility compliance
-- Update documentation for new features
+### Code Standards
+- **TypeScript** - Strict type checking
+- **ESLint** - Code linting and formatting
+- **Prettier** - Code formatting
+- **Jest** - Unit testing
+- **Cypress** - E2E testing
 
 ## 📄 License
 
@@ -195,48 +315,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- **Documentation** - Check this README and inline code comments
-- **Issues** - Report bugs and request features on GitHub
-- **Discussions** - Join community discussions for help and ideas
+### Documentation
+- [User Guide](docs/user-guide.md)
+- [API Reference](docs/api-reference.md)
+- [Deployment Guide](docs/deployment.md)
 
-## 🗺️ Roadmap
+### Issues
+- [Bug Reports](https://github.com/yourusername/size-seeker-tracker/issues)
+- [Feature Requests](https://github.com/yourusername/size-seeker-tracker/issues)
 
-### Version 1.1 (Next Release)
-- [ ] Enhanced measurement accuracy algorithms
-- [ ] Additional measurement tools
-- [ ] Advanced data visualization
-- [ ] Community features (anonymous sharing)
-
-### Version 1.2 (Future)
-- [ ] Machine learning recommendations
-- [ ] Integration with health apps
-- [ ] Advanced reporting and insights
-- [ ] Multi-language support
-
-## 📊 Project Status
-
-### ✅ Completed Features
-- [x] Core measurement functionality
-- [x] Advanced analytics dashboard
-- [x] Offline support and sync
-- [x] Smart notifications
-- [x] Goal tracking system
-- [x] Achievement system
-- [x] Responsive design
-- [x] Security audit and fixes
-- [x] PWA implementation
-
-### 🔄 In Progress
-- [ ] Final UI/UX polish
-- [ ] Documentation updates
-- [ ] Performance optimizations
-
-### 📋 Remaining Tasks
-- [ ] Full QA testing
-- [ ] Accessibility audit
-- [ ] Final code cleanup
-- [ ] Release preparation
+### Community
+- [Discussions](https://github.com/yourusername/size-seeker-tracker/discussions)
+- [Wiki](https://github.com/yourusername/size-seeker-tracker/wiki)
 
 ---
 
-**Built with ❤️ using React, TypeScript, and Tailwind CSS**
+**Size Seeker Tracker** - Advanced measurement tracking and analysis tool for health and fitness monitoring.

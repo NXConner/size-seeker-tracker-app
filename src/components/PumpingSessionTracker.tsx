@@ -177,7 +177,7 @@ const PumpingSessionTracker: React.FC<PumpingSessionTrackerProps> = ({ onBack })
 
             <div>
               <Label htmlFor="focus">Focus Area</Label>
-              <Select value={formData.focus} onValueChange={(value) => setFormData({ ...formData, focus: value })}>
+              <Select value={formData.focus} onValueChange={(value) => setFormData({ ...formData, focus: value })} title="Focus Area">
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

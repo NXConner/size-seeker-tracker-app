@@ -95,30 +95,26 @@ All colors MUST be HSL.
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
   html {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 
   body {
-    @apply bg-background text-foreground min-h-screen;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    min-height: 100vh;
   }
 
   /* Dark mode styles */
   html.dark {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     color-scheme: dark;
   }
 
   body.dark {
-    @apply bg-background text-foreground;
-  }
-
-  /* Ensure all elements inherit the dark theme */
-  .dark * {
-    @apply border-border;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }

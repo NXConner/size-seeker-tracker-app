@@ -933,7 +933,7 @@ const IntegratedMeasurementAnalysis: React.FC<IntegratedMeasurementAnalysisProps
                     {/* Unit Selection */}
                     <div className="space-y-3 mb-4">
                       <Label htmlFor="unit">Measurement Unit</Label>
-                      <Select value={measurementUnit} onValueChange={(value: 'cm' | 'in') => setMeasurementUnit(value)}>
+                      <Select value={measurementUnit} onValueChange={(value: 'cm' | 'in') => setMeasurementUnit(value)} title="Measurement Unit">
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>

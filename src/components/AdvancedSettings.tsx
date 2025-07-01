@@ -442,6 +442,8 @@ export default function AdvancedSettings({ onBack }: AdvancedSettingsProps) {
           <div></div>
         </div>
 
+        <style>{`.storage-bar-width { width: ${storageInfo.percentage}%; }`}</style>
+
         <Tabs defaultValue="appearance" className="space-y-6">
           <TabsList className="grid grid-cols-6 w-full">
             <TabsTrigger value="appearance">Appearance</TabsTrigger>
@@ -464,7 +466,7 @@ export default function AdvancedSettings({ onBack }: AdvancedSettingsProps) {
                 <CardContent className="space-y-4">
                   <div>
                     <Label>Theme</Label>
-                    <Select value={settings.theme} onValueChange={(value) => updateSetting('theme', value as 'light' | 'dark' | 'auto')}>
+                    <Select value={settings.theme} onValueChange={(value) => updateSetting('theme', value as 'light' | 'dark' | 'auto')} title="Theme">
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -710,8 +712,7 @@ export default function AdvancedSettings({ onBack }: AdvancedSettingsProps) {
                       </p>
                       <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                         <div 
-                          className="bg-blue-600 h-2 rounded-full" 
-                          style={{ width: `${storageInfo.percentage}%` }}
+                          className="bg-blue-600 h-2 rounded-full storage-bar-width"
                         ></div>
                       </div>
                       <Button 
