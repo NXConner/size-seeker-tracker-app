@@ -242,8 +242,8 @@ const AchievementSystem: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
       </div>
 

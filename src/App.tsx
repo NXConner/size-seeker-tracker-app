@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 import OfflineIndicator from '@/components/OfflineIndicator';
 import './App.css';
+import GlobalErrorBoundary from '@/components/GlobalErrorBoundary';
 
 // Lazy load components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -67,13 +68,15 @@ const AppContent: React.FC = React.memo(() => {
           <Sonner />
           <OfflineIndicator />
           <BrowserRouter>
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <GlobalErrorBoundary>
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </GlobalErrorBoundary>
           </BrowserRouter>
           <PWAInstallPrompt />
         </TooltipProvider>
