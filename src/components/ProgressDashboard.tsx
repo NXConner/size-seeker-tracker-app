@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowLeft, TrendingUp, Target, Calendar, Download, Upload, BarChart3, LineChart, PieChart, Activity, Award, Clock } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Target, Calendar, Download, Upload, BarChart3, LineChart as LineChartIcon, PieChart, Activity, Award, Clock, Ruler, Circle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
 import { secureStorage } from '@/utils/secureStorage';
 import { imageStorage } from '@/utils/imageStorage';
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+  BarChart,
+  Bar
+} from 'recharts';
 
 interface ProgressDashboardProps {
   onBack: () => void;
@@ -62,7 +74,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
       
       // Load measurements from both sources
       const indexedDBImages = await imageStorage.getAllImages();
-      const localStorageMeasurements = secureStorage.getItem('measurements') || [];
+      const localStorageMeasurements = (await secureStorage.getItem<any[]>('measurements')) || [];
       
       const allMeasurements = [...indexedDBImages, ...localStorageMeasurements]
         .filter(m => m.length && m.girth)
@@ -78,7 +90,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
       setMeasurements(allMeasurements);
       
       // Load goals
-      const savedGoals = secureStorage.getItem('goals') || [];
+      const savedGoals = (await secureStorage.getItem<Goal[]>('goals')) || [];
       setGoals(savedGoals);
       
       // Calculate trend analysis
@@ -177,6 +189,26 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
     };
   }, [filteredMeasurements]);
 
+  const chartData = useMemo(() => {
+    return filteredMeasurements.map((m) => ({
+      date: new Date(m.date).toLocaleDateString(),
+      length: m.length,
+      girth: m.girth,
+    }));
+  }, [filteredMeasurements]);
+
+  const consistencyData = useMemo(() => {
+    if (filteredMeasurements.length < 2) return [] as Array<{ date: string; delta: number }>
+    const deltas: Array<{ date: string; delta: number }> = []
+    for (let i = 1; i < filteredMeasurements.length; i++) {
+      const prev = filteredMeasurements[i - 1]
+      const curr = filteredMeasurements[i]
+      const delta = Math.abs(curr.length - prev.length) + Math.abs(curr.girth - prev.girth)
+      deltas.push({ date: new Date(curr.date).toLocaleDateString(), delta: Number(delta.toFixed(3)) })
+    }
+    return deltas
+  }, [filteredMeasurements])
+
   const exportData = () => {
     try {
       const data = {
@@ -266,18 +298,18 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
     });
   };
 
-  const updateGoal = (goalId: string, updates: Partial<Goal>) => {
+  const updateGoal = async (goalId: string, updates: Partial<Goal>) => {
     const updatedGoals = goals.map(goal => 
       goal.id === goalId ? { ...goal, ...updates } : goal
     );
     setGoals(updatedGoals);
-    secureStorage.setItem('goals', updatedGoals);
+    await secureStorage.setItem('goals', updatedGoals);
   };
 
-  const deleteGoal = (goalId: string) => {
+  const deleteGoal = async (goalId: string) => {
     const updatedGoals = goals.filter(goal => goal.id !== goalId);
     setGoals(updatedGoals);
-    secureStorage.setItem('goals', updatedGoals);
+    await secureStorage.setItem('goals', updatedGoals);
     
     toast({
       title: "Goal Deleted",
@@ -329,7 +361,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
       <div className="flex gap-4">
         <div>
           <label className="text-sm font-medium">Time Range</label>
-          <Select value={timeRange} onValueChange={(value: any) => setTimeRange(value)} title="Time Range">
+          <Select value={timeRange} onValueChange={(value: any) => setTimeRange(value)}>
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -344,7 +376,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
         </div>
         <div>
           <label className="text-sm font-medium">Metric</label>
-          <Select value={selectedMetric} onValueChange={(value: any) => setSelectedMetric(value)} title="Metric">
+           <Select value={selectedMetric} onValueChange={(value: any) => setSelectedMetric(value)}>
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -421,17 +453,24 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
             </Card>
           </div>
 
-          {/* Progress Chart Placeholder */}
+          {/* Progress Chart */}
           <Card className="mt-6">
             <CardHeader>
               <CardTitle>Progress Over Time</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-64 flex items-center justify-center text-gray-500">
-                <div className="text-center">
-                  <LineChart className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                  <p>Progress chart will be implemented with D3.js</p>
-                </div>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="length" stroke="#3b82f6" name="Length (cm)" dot={false} />
+                    <Line type="monotone" dataKey="girth" stroke="#f59e0b" name="Girth (cm)" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
@@ -490,17 +529,23 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
               </Card>
             )}
 
-            {/* Consistency Chart Placeholder */}
+            {/* Consistency Chart */}
             <Card>
               <CardHeader>
                 <CardTitle>Consistency Analysis</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <Activity className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                    <p>Consistency chart will be implemented</p>
-                  </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={consistencyData} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="delta" fill="#10b981" name="Abs Delta (cm)" />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>

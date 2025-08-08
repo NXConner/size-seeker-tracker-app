@@ -82,17 +82,17 @@ const HealthSafety: React.FC<HealthSafetyProps> = ({ onBack }) => {
     initializeSafetyGuidelines();
   }, []);
 
-  const loadHealthData = () => {
-    const savedEvents = secureStorage.getItem('health_events') || [];
-    const savedRestDays = secureStorage.getItem('rest_days') || [];
-    const savedMetrics = secureStorage.getItem('health_metrics') || healthMetrics;
+  const loadHealthData = async () => {
+    const savedEvents = (await secureStorage.getItem<any[]>('health_events')) || [];
+    const savedRestDays = (await secureStorage.getItem<any[]>('rest_days')) || [];
+    const savedMetrics = (await secureStorage.getItem<typeof healthMetrics>('health_metrics')) || healthMetrics;
     
     setHealthEvents(savedEvents);
     setRestDays(savedRestDays);
     setHealthMetrics(savedMetrics);
   };
 
-  const initializeSafetyGuidelines = () => {
+  const initializeSafetyGuidelines = async () => {
     const guidelines: SafetyGuidelines[] = [
       {
         id: '1',
@@ -152,7 +152,7 @@ const HealthSafety: React.FC<HealthSafetyProps> = ({ onBack }) => {
       }
     ];
     
-    const savedGuidelines = secureStorage.getItem('safety_guidelines') || guidelines;
+    const savedGuidelines = (await secureStorage.getItem<SafetyGuidelines[]>('safety_guidelines')) || guidelines;
     setSafetyGuidelines(savedGuidelines);
   };
 
@@ -238,14 +238,14 @@ const HealthSafety: React.FC<HealthSafetyProps> = ({ onBack }) => {
     return recommendations[type]?.[severity] || ['Monitor symptoms', 'Consider consulting a healthcare provider'];
   };
 
-  const resolveHealthEvent = (eventId: string) => {
+  const resolveHealthEvent = async (eventId: string) => {
     const updatedEvents = healthEvents.map(event =>
       event.id === eventId 
         ? { ...event, resolved: true, resolvedDate: new Date().toISOString() }
         : event
     );
     setHealthEvents(updatedEvents);
-    secureStorage.setItem('health_events', updatedEvents);
+    await secureStorage.setItem('health_events', updatedEvents);
     
     toast({
       title: "Event Resolved",

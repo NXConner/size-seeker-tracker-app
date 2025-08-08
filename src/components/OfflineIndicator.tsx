@@ -36,9 +36,9 @@ const OfflineIndicator: React.FC = () => {
 
   const checkPendingChanges = async () => {
     try {
-      const pendingMeasurements = secureStorage.getItem('pendingMeasurements') || [];
-      const pendingGoals = secureStorage.getItem('pendingGoals') || [];
-      const pendingSettings = secureStorage.getItem('pendingSettings') || [];
+      const pendingMeasurements = (await secureStorage.getItem<any[]>('pendingMeasurements')) || [];
+      const pendingGoals = (await secureStorage.getItem<any[]>('pendingGoals')) || [];
+      const pendingSettings = (await secureStorage.getItem<any[]>('pendingSettings')) || [];
       
       const totalPending = pendingMeasurements.length + pendingGoals.length + pendingSettings.length;
       
@@ -104,10 +104,10 @@ const OfflineIndicator: React.FC = () => {
     }
   };
 
-  const queueForSync = (data: any, type: 'measurements' | 'goals' | 'settings') => {
+  const queueForSync = async (data: any, type: 'measurements' | 'goals' | 'settings') => {
     try {
       const key = `pending${type.charAt(0).toUpperCase() + type.slice(1)}`;
-      const existing = secureStorage.getItem(key) || [];
+      const existing = (await secureStorage.getItem<any[]>(key)) || [];
       secureStorage.setItem(key, [...existing, { ...data, timestamp: new Date().toISOString() }]);
       
       setSyncStatus(prev => ({

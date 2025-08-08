@@ -77,15 +77,15 @@ const SmartNotifications: React.FC<SmartNotificationsProps> = ({ onBack }) => {
       const storedMeasurements = await imageStorage.getAllImages();
       setMeasurements(storedMeasurements);
       
-      const storedGoals = secureStorage.getItem('goals') || [];
+      const storedGoals = (await secureStorage.getItem<any[]>('goals')) || [];
       setGoals(storedGoals);
     } catch (error) {
       console.error('Error loading data:', error);
     }
   };
 
-  const loadSettings = () => {
-    const storedSettings = secureStorage.getItem('notificationSettings');
+  const loadSettings = async () => {
+    const storedSettings = await secureStorage.getItem<NotificationSettings>('notificationSettings');
     if (storedSettings) {
       setSettings({ ...settings, ...storedSettings });
     }

@@ -28,8 +28,10 @@ const PumpingSessionTracker: React.FC<PumpingSessionTrackerProps> = ({ onBack })
   });
 
   useEffect(() => {
-    const savedSessions = secureStorage.getItem('pumpingSessions') || [];
-    setSessions(savedSessions);
+    (async () => {
+      const savedSessions = (await secureStorage.getItem<PumpingSession[]>('pumpingSessions')) || [];
+      setSessions(savedSessions);
+    })();
   }, []);
 
   const saveSession = () => {

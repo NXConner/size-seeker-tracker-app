@@ -340,7 +340,7 @@ const IntegratedMeasurementAnalysis: React.FC<IntegratedMeasurementAnalysisProps
       setIsLoading(true);
       
       const indexedDBImages = await imageStorage.getAllImages();
-      const localStorageMeasurements = secureStorage.getItem('measurements') || [];
+      const localStorageMeasurements = (await secureStorage.getItem<any[]>('measurements')) || [];
       
       const allMeasurements = [...indexedDBImages];
       
