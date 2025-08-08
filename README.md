@@ -230,6 +230,20 @@ VITE_API_URL=https://your-api-domain.com
 VITE_ENCRYPTION_KEY=production-encryption-key
 ```
 
+## Secure storage key (production)
+
+Set a strong key in your environment for AES-GCM encryption used by `secureStorage`.
+
+- Create a `.env` file based on `.env.example`.
+- Set `VITE_SECURE_STORAGE_KEY` to a long, random string (32+ chars recommended).
+- Example:
+
+```
+VITE_SECURE_STORAGE_KEY=super-long-random-secret-generated-for-your-app
+```
+
+For local development and tests, a fallback/dev key is used, but you MUST set this in production builds.
+
 ## 🔒 Security
 
 ### Data Privacy

@@ -21,6 +21,7 @@ import {
   BarChart,
   Bar
 } from 'recharts';
+import { buildChartData, buildConsistencyData } from '@/utils/analytics';
 
 interface ProgressDashboardProps {
   onBack: () => void;
@@ -189,25 +190,8 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onBack }) => {
     };
   }, [filteredMeasurements]);
 
-  const chartData = useMemo(() => {
-    return filteredMeasurements.map((m) => ({
-      date: new Date(m.date).toLocaleDateString(),
-      length: m.length,
-      girth: m.girth,
-    }));
-  }, [filteredMeasurements]);
-
-  const consistencyData = useMemo(() => {
-    if (filteredMeasurements.length < 2) return [] as Array<{ date: string; delta: number }>
-    const deltas: Array<{ date: string; delta: number }> = []
-    for (let i = 1; i < filteredMeasurements.length; i++) {
-      const prev = filteredMeasurements[i - 1]
-      const curr = filteredMeasurements[i]
-      const delta = Math.abs(curr.length - prev.length) + Math.abs(curr.girth - prev.girth)
-      deltas.push({ date: new Date(curr.date).toLocaleDateString(), delta: Number(delta.toFixed(3)) })
-    }
-    return deltas
-  }, [filteredMeasurements])
+  const chartData = useMemo(() => buildChartData(filteredMeasurements), [filteredMeasurements])
+  const consistencyData = useMemo(() => buildConsistencyData(filteredMeasurements), [filteredMeasurements])
 
   const exportData = () => {
     try {
