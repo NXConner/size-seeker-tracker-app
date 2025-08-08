@@ -334,6 +334,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [API Reference](docs/api-reference.md)
 - [Deployment Guide](docs/deployment.md)
 
+### Environment Setup
+- Copy `.env.example` to `.env` and set `VITE_SECURE_STORAGE_KEY`
+
 ### Issues
 - [Bug Reports](https://github.com/yourusername/size-seeker-tracker/issues)
 - [Feature Requests](https://github.com/yourusername/size-seeker-tracker/issues)
