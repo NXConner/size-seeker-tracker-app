@@ -448,9 +448,10 @@ export const lazyLoad = <T extends React.ComponentType<any>>(
     return React.createElement(
       React.Suspense,
       { fallback: fallbackNode },
-      React.createElement(LazyComponent as any, { ...props })
+      React.createElement(LazyComponent as unknown as React.ComponentType<any>, { ...(props as any) })
     );
   };
+
 };
 
 // Memory management utilities

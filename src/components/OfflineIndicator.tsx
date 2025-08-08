@@ -3,7 +3,7 @@ import { Wifi, WifiOff, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { usePWA } from '@/hooks/use-pwa';
+import { usePWA } from '@/hooks/use-pwa.ts';
 import { imageStorage } from '@/utils/imageStorage';
 import { secureStorage } from '@/utils/secureStorage';
 import { toast } from '@/hooks/use-toast';
