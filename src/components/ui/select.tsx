@@ -4,7 +4,9 @@ import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Select = SelectPrimitive.Root
+const Select = SelectPrimitive.Root as unknown as React.FC<
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & { title?: string }
+>
 
 const SelectGroup = SelectPrimitive.Group
 

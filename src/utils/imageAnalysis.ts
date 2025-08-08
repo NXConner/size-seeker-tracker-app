@@ -1,42 +1,4 @@
-export interface MeasurementResult {
-  length: number;
-  girth: number;
-  confidence: number;
-  timestamp: string;
-}
-
-export interface PumpingSession {
-  id: string;
-  date: string;
-  duration: number; // minutes
-  pressure: number; // Hg
-  sets: number;
-  focus: 'length' | 'girth' | 'both';
-  notes?: string;
-}
-
-export interface Recommendation {
-  cylinderSize: {
-    length: number;
-    diameter: number;
-  };
-  routine: {
-    name: string;
-    duration: number;
-    pressure: number;
-    sets: number;
-    frequency: string;
-    focus: 'length' | 'girth' | 'both';
-  };
-  tips: string[];
-}
-
-export interface ImageAnalysisOptions {
-  referenceObjectSize: number;
-  minConfidence: number;
-  enableAutoDetection: boolean;
-  referencePoints?: any;
-}
+import type { MeasurementResult, PumpingSession, Recommendation, ImageAnalysisOptions, SnapToShapeResult } from '@/types/measurement'
 
 export interface ObjectBoundaryOptions {
   tolerance: number;
@@ -48,13 +10,6 @@ export interface SnapToShapeOptions {
   mode: 'auto' | 'manual' | 'edge';
   minArea: number;
   maxArea: number;
-}
-
-export interface SnapToShapeResult {
-  outline: { x: number; y: number }[];
-  confidence: number;
-  objectType: 'rectangle' | 'circle' | 'polygon' | 'custom';
-  boundingBox: { x: number; y: number; width: number; height: number };
 }
 
 // Performance optimization: Cache for processed images
@@ -577,7 +532,7 @@ export class ImageAnalyzer {
   static createMeasurementOverlay(
     imageData: string, 
     measurements: MeasurementResult
-  ): string {
+  ): string | Promise<string> {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
@@ -588,7 +543,7 @@ export class ImageAnalyzer {
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
         
-        if (measurements.measurementPoints) {
+        if ((measurements as any).measurementPoints) {
           const { lengthStart, lengthEnd, girthCenter, girthRadius } = measurements.measurementPoints;
           
           // Draw object outline if available

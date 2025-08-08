@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, AlertTriangle, Heart, Shield, Calendar, Activity, TrendingDown, CheckCircle, Plus, Trash2, Edit, Bell, FileText, Thermometer, Zap } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, Heart, Shield, Calendar, Activity, TrendingDown, CheckCircle, Plus, Trash2, Edit, Bell, FileText, Thermometer, Zap, AlertCircle as AlertCircleIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -367,7 +367,7 @@ const HealthSafety: React.FC<HealthSafetyProps> = ({ onBack }) => {
             }`}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Health Status</CardTitle>
-                {healthStatus === 'critical' ? <AlertCircle className="h-4 w-4 text-red-600" /> :
+                {healthStatus === 'critical' ? <AlertCircleIcon className="h-4 w-4 text-red-600" /> :
                  healthStatus === 'warning' ? <AlertTriangle className="h-4 w-4 text-orange-600" /> :
                  healthStatus === 'caution' ? <AlertTriangle className="h-4 w-4 text-yellow-600" /> :
                  <CheckCircle className="h-4 w-4 text-green-600" />}
@@ -489,7 +489,7 @@ const HealthSafety: React.FC<HealthSafetyProps> = ({ onBack }) => {
                           </Badge>
                           {event.requiresMedicalAttention && (
                             <Badge variant="destructive">
-                              <AlertCircle className="h-3 w-3 mr-1" />
+                              <AlertCircleIcon className="h-3 w-3 mr-1" />
                               Medical Attention Required
                             </Badge>
                           )}

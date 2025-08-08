@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { usePWA } from '@/hooks/use-pwa.ts';
+import { usePWA } from '@/hooks/use-pwa';
 
 const PWAInstallPrompt: React.FC = () => {
   const { canInstall, isInstalled, installApp } = usePWA();
