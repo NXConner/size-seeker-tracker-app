@@ -123,11 +123,11 @@ export const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ data, unit }) =>
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip 
-                formatter={(value: number) => [`${value.toFixed(2)} ${unit}`, '']}
+                formatter={(value) => [`${Number(value).toFixed(2)} ${unit}`, '']}
                 labelFormatter={(label) => new Date(label).toLocaleDateString()}
               />
               <Legend />
-              {metric === 'both' || metric === 'length' ? (
+              {(metric === 'both' || metric === 'length') && (
                 <Line 
                   type="monotone" 
                   dataKey="length" 
@@ -137,7 +137,7 @@ export const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ data, unit }) =>
                   activeDot={{ r: 6 }}
                 />
               )}
-              {metric === 'both' || metric === 'girth' ? (
+              {(metric === 'both' || metric === 'girth') && (
                 <Line 
                   type="monotone" 
                   dataKey="girth" 
@@ -159,11 +159,11 @@ export const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ data, unit }) =>
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip 
-                formatter={(value: number) => [`${value.toFixed(2)} ${unit}`, '']}
+                formatter={(value) => [`${Number(value).toFixed(2)} ${unit}`, '']}
                 labelFormatter={(label) => new Date(label).toLocaleDateString()}
               />
               <Legend />
-              {metric === 'both' || metric === 'length' ? (
+              {(metric === 'both' || metric === 'length') && (
                 <Area 
                   type="monotone" 
                   dataKey="length" 
@@ -173,7 +173,7 @@ export const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ data, unit }) =>
                   fillOpacity={0.6}
                 />
               )}
-              {metric === 'both' || metric === 'girth' ? (
+              {(metric === 'both' || metric === 'girth') && (
                 <Area 
                   type="monotone" 
                   dataKey="girth" 
@@ -195,14 +195,14 @@ export const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ data, unit }) =>
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip 
-                formatter={(value: number) => [`${value.toFixed(2)} ${unit}`, '']}
+                formatter={(value) => [`${Number(value).toFixed(2)} ${unit}`, '']}
                 labelFormatter={(label) => new Date(label).toLocaleDateString()}
               />
               <Legend />
-              {metric === 'both' || metric === 'length' ? (
+              {(metric === 'both' || metric === 'length') && (
                 <Bar dataKey="length" fill="#0088FE" />
               )}
-              {metric === 'both' || metric === 'girth' ? (
+              {(metric === 'both' || metric === 'girth') && (
                 <Bar dataKey="girth" fill="#00C49F" />
               )}
             </BarChart>
@@ -351,8 +351,8 @@ export const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ data, unit }) =>
               <YAxis yAxisId="left" />
               <YAxis yAxisId="right" orientation="right" />
               <Tooltip 
-                formatter={(value: number, name: string) => [
-                  name === 'consistency' ? `${value.toFixed(1)}%` : value.toString(),
+                formatter={(value, name) => [
+                  name === 'consistency' ? `${Number(value).toFixed(1)}%` : value.toString(),
                   name === 'consistency' ? 'Consistency' : 'Sessions'
                 ]}
                 labelFormatter={(label) => new Date(label).toLocaleDateString()}

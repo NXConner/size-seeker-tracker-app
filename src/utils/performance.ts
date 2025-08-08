@@ -1,3 +1,4 @@
+import React from 'react';
 // Performance optimization utilities
 
 // Debounce utility
@@ -441,11 +442,15 @@ export const lazyLoad = <T extends React.ComponentType<any>>(
 ) => {
   const LazyComponent = React.lazy(importFunc);
   
-  return (props: React.ComponentProps<T>) => (
-    <React.Suspense fallback={fallback ? <fallback /> : <div>Loading...</div>}>
-      <LazyComponent {...props} />
-    </React.Suspense>
-  );
+  return (props: React.ComponentProps<T>) => {
+    const Fallback = fallback;
+    const fallbackNode = Fallback ? React.createElement(Fallback) : React.createElement('div', null, 'Loading...');
+    return React.createElement(
+      React.Suspense,
+      { fallback: fallbackNode },
+      React.createElement(LazyComponent as any, { ...props })
+    );
+  };
 };
 
 // Memory management utilities
@@ -484,7 +489,4 @@ export const memoryManager = {
     
     return memoryInfo.used / memoryInfo.limit > threshold;
   }
-};
-
-// Export React for use in utilities
-import React from 'react'; 
+}; 
