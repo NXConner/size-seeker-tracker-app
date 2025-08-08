@@ -70,6 +70,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({ onBack }) => {
       const newMeasurement = {
         id: Date.now().toString(),
         image: imageData,
+        date: new Date().toISOString(),
         timestamp: new Date().toISOString(),
         measurements: null
       };

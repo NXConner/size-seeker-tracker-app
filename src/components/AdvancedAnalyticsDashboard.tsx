@@ -565,7 +565,7 @@ const AdvancedAnalyticsDashboard: React.FC<AdvancedAnalyticsDashboardProps> = ({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Select value={timeRange} onValueChange={setTimeRange}>
+          <Select value={timeRange} onValueChange={(v) => setTimeRange(v as "all" | "7d" | "30d" | "90d" | "1y")}>
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>

@@ -1,4 +1,4 @@
-import { MeasurementResult, PumpingSession } from '../types/measurement';
+import type { MeasurementResult, PumpingSession } from '@/types/measurement';
 
 export interface AIRecommendation {
   id: string;

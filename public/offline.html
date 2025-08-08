@@ -1,37 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Offline - Size Seeker Tracker</title>
-  <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background: #0b1020; color: #e5e7eb; }
-    .container { display: grid; place-items: center; min-height: 100vh; padding: 24px; }
-    .card { max-width: 560px; border-radius: 16px; background: #111827; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-    h1 { margin: 0 0 8px; font-size: 28px; }
-    p { margin: 8px 0; color: #9ca3af; }
-    .tips { margin-top: 16px; }
-    li { margin: 6px 0; }
-    .btn { display: inline-block; margin-top: 16px; padding: 10px 14px; border-radius: 8px; background: #10b981; color: #0b1020; text-decoration: none; font-weight: 600; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="card" role="status" aria-live="polite">
-      <h1>You're offline</h1>
-      <p>
-        Size Seeker Tracker can't reach the network. You can continue viewing cached
-        pages and assets. Try again once you're back online.
-      </p>
-      <div class="tips">
-        <ul>
-          <li>Check your internet connection</li>
-          <li>Reload the page once you're back online</li>
-          <li>Use the app from your home screen if installed</li>
-        </ul>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Offline - Size Seeker Tracker</title>
+    <meta name="description" content="You are offline. Some features may be unavailable." />
+    <meta name="theme-color" content="#10b981" />
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; margin: 0; padding: 0; background: #f8fafc; color: #0f172a; }
+      .container { max-width: 720px; margin: 0 auto; padding: 2rem; }
+      .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+      .title { font-weight: 700; font-size: 1.5rem; margin: 0 0 0.75rem; }
+      .muted { color: #475569; }
+      .actions { margin-top: 1rem; display: flex; gap: 0.5rem; }
+      .btn { display: inline-block; padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px solid #e2e8f0; background: #f1f5f9; color: #0f172a; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1 class="title">You are offline</h1>
+        <p class="muted">This page is shown because there is no network connection. Once you are back online, the app will automatically resume full functionality.</p>
+        <div class="actions">
+          <a class="btn" href="/">Go to Home</a>
+          <a class="btn" href="/">Retry</a>
+        </div>
       </div>
-      <a href="/" class="btn">Go to Home</a>
     </div>
-  </div>
-</body>
+  </body>
 </html>

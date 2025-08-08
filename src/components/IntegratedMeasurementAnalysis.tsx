@@ -252,6 +252,7 @@ const IntegratedMeasurementAnalysis: React.FC<IntegratedMeasurementAnalysisProps
       const newMeasurement = {
         id: Date.now().toString(),
         image: imageData,
+        date: new Date().toISOString(),
         timestamp: new Date().toISOString(),
         measurements: null
       };
@@ -419,7 +420,8 @@ const IntegratedMeasurementAnalysis: React.FC<IntegratedMeasurementAnalysisProps
       girth: girthMeasurement ? parseFloat(girthMeasurement) : undefined,
       unit: measurementUnit,
       referenceMeasurement: referenceMeasurement ? parseFloat(referenceMeasurement) : undefined,
-      analysisPoints: autoMeasurement?.points
+      analysisPoints: autoMeasurement?.points,
+      timestamp: selectedImage?.timestamp || new Date().toISOString(),
     };
 
     const updatedMeasurements = measurements.map(m => 
@@ -933,7 +935,7 @@ const IntegratedMeasurementAnalysis: React.FC<IntegratedMeasurementAnalysisProps
                     {/* Unit Selection */}
                     <div className="space-y-3 mb-4">
                       <Label htmlFor="unit">Measurement Unit</Label>
-                      <Select value={measurementUnit} onValueChange={(value: 'cm' | 'in') => setMeasurementUnit(value)} title="Measurement Unit">
+                      <Select value={measurementUnit} onValueChange={(value) => setMeasurementUnit(value as 'cm' | 'in')} title="Measurement Unit">
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>

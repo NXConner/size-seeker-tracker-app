@@ -6,6 +6,8 @@ interface ThemeContextType {
   toggleTheme: () => void;
   setTheme: (theme: 'light' | 'dark') => void;
   setUnitPreference: (unit: 'cm' | 'inches') => void;
+  unit?: 'cm' | 'in';
+  setUnit?: (unit: 'cm' | 'in') => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -43,6 +45,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     return (savedUnit as 'cm' | 'inches') || 'inches';
   });
 
+  // Back-compat simple unit for components expecting 'cm' | 'in'
+  const [unit, setUnit] = useState<'cm' | 'in'>(() => (unitPreference === 'inches' ? 'in' : 'cm'));
+
   useEffect(() => {
     // Apply theme to document
     if (isDark) {
@@ -58,8 +63,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, [isDark]);
 
   useEffect(() => {
-    // Save unit preference to localStorage
     localStorage.setItem('unitPreference', unitPreference);
+    setUnit(unitPreference === 'inches' ? 'in' : 'cm');
   }, [unitPreference]);
 
   const toggleTheme = () => {
@@ -70,8 +75,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     setIsDark(theme === 'dark');
   };
 
-  const handleSetUnitPreference = (unit: 'cm' | 'inches') => {
-    setUnitPreference(unit);
+  const handleSetUnitPreference = (u: 'cm' | 'inches') => {
+    setUnitPreference(u);
   };
 
   return (
@@ -80,7 +85,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       unitPreference, 
       toggleTheme, 
       setTheme, 
-      setUnitPreference: handleSetUnitPreference 
+      setUnitPreference: handleSetUnitPreference,
+      unit,
+      setUnit,
     }}>
       {children}
     </ThemeContext.Provider>
