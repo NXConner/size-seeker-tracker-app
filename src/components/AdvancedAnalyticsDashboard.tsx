@@ -142,11 +142,11 @@ const AdvancedAnalyticsDashboard: React.FC<AdvancedAnalyticsDashboardProps> = ({
       setMeasurements(storedMeasurements);
       
       // Load goals
-      const storedGoals = secureStorage.getItem('goals') || [];
+      const storedGoals = (await secureStorage.getItem<Goal[]>('goals')) || [];
       setGoals(storedGoals);
       
       // Load achievements
-      const storedAchievements = secureStorage.getItem('achievements') || getDefaultAchievements();
+      const storedAchievements = (await secureStorage.getItem<Achievement[]>('achievements')) || getDefaultAchievements();
       setAchievements(storedAchievements);
       
       // Calculate analytics

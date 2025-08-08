@@ -92,7 +92,7 @@ const MeasurementView: React.FC<MeasurementViewProps> = ({ onBack }) => {
       const indexedDBImages = await imageStorage.getAllImages();
       
       // Load from localStorage (old measurements)
-      const localStorageMeasurements = secureStorage.getItem('measurements') || [];
+      const localStorageMeasurements = (await secureStorage.getItem<any[]>('measurements')) || [];
       
       // Combine both sources, prioritizing IndexedDB
       const allMeasurements = [...indexedDBImages];
@@ -397,7 +397,7 @@ const MeasurementView: React.FC<MeasurementViewProps> = ({ onBack }) => {
       await imageStorage.saveImage(measurementData);
       
       // Also save to localStorage for backward compatibility
-      const existingMeasurements = secureStorage.getItem('measurements') || [];
+      const existingMeasurements = (await secureStorage.getItem<any[]>('measurements')) || [];
       secureStorage.setItem('measurements', [...existingMeasurements, measurementData]);
       
       setMeasurements(prev => [measurementData, ...prev]);
@@ -430,7 +430,7 @@ const MeasurementView: React.FC<MeasurementViewProps> = ({ onBack }) => {
       await imageStorage.deleteImage(id);
       
       // Remove from localStorage
-      const existingMeasurements = secureStorage.getItem('measurements') || [];
+      const existingMeasurements = (await secureStorage.getItem<any[]>('measurements')) || [];
       const filteredMeasurements = existingMeasurements.filter((m: any) => m.id !== id);
       secureStorage.setItem('measurements', filteredMeasurements);
       

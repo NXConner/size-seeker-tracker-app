@@ -28,8 +28,10 @@ const PumpingSessionTracker: React.FC<PumpingSessionTrackerProps> = ({ onBack })
   });
 
   useEffect(() => {
-    const savedSessions = secureStorage.getItem('pumpingSessions') || [];
-    setSessions(savedSessions);
+    (async () => {
+      const savedSessions = (await secureStorage.getItem<PumpingSession[]>('pumpingSessions')) || [];
+      setSessions(savedSessions);
+    })();
   }, []);
 
   const saveSession = () => {
@@ -177,7 +179,7 @@ const PumpingSessionTracker: React.FC<PumpingSessionTrackerProps> = ({ onBack })
 
             <div>
               <Label htmlFor="focus">Focus Area</Label>
-              <Select value={formData.focus} onValueChange={(value) => setFormData({ ...formData, focus: value })} title="Focus Area">
+              <Select value={formData.focus} onValueChange={(value: 'length' | 'girth' | 'both') => setFormData({ ...formData, focus: value })}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
