@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ArrowLeft, TrendingUp, Target, Trophy, Calendar, BarChart3, LineChart, PieChart, Award, Star, Zap, Goal, TrendingDown, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -22,6 +22,21 @@ import { Brain, Lightbulb } from 'lucide-react';
 interface AdvancedAnalyticsDashboardProps {
   onBack: () => void;
 }
+
+// Provide local no-op handlers for share/export to avoid undefined props
+const onExport = (format: 'pdf' | 'csv' | 'png' = 'pdf') => {
+  toast({ title: 'Export', description: `Exporting analytics as ${format.toUpperCase()} (placeholder).` });
+};
+
+const onShare = () => {
+  if (navigator.share) {
+    navigator.share({ title: 'Size Seeker Analytics', text: 'Check my analytics!', url: window.location.href }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(window.location.href).then(() => {
+      toast({ title: 'Link copied', description: 'Analytics link copied to clipboard.' });
+    }).catch(() => {});
+  }
+};
 
 interface Goal {
   id: string;

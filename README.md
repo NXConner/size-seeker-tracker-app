@@ -23,16 +23,16 @@ Advanced measurement tracking and analysis tool with AI-powered insights, health
 - **Achievement System** - Gamification with progress milestones
 
 ### Data Management
-- **Secure Storage** - Encrypted localStorage and IndexedDB
+- **Secure Storage** - Encrypted localStorage and IndexedDB (demo encryption; upgrade recommended)
 - **Data Export/Import** - JSON and CSV export functionality
 - **Image Storage** - Secure image storage with compression
 - **Backup System** - Local and cloud backup capabilities
 
 ### PWA Features
-- **Offline Support** - Full offline functionality with sync
+- **Offline Support** - Installable PWA with service worker
 - **App Installation** - Install as native app on mobile/desktop
-- **Push Notifications** - Reminder system for sessions
-- **Background Sync** - Automatic data synchronization
+- **Push Notifications** - Reminder system for sessions (planned)
+- **Background Sync** - Automatic data synchronization (planned)
 
 ## 📱 Installation
 
@@ -50,7 +50,7 @@ cd size-seeker-tracker
 # Install dependencies
 npm install
 
-# Start development server
+# Start development server (http://localhost:3002)
 npm run dev
 
 # Build for production
@@ -152,7 +152,7 @@ interface ProgressDashboardProps {
 
 #### Secure Storage
 ```typescript
-// Encrypted localStorage operations
+// Local storage operations with demo encryption (base64). Replace with WebCrypto/AES-GCM in production.
 secureStorage.setItem(key: string, value: any): void
 secureStorage.getItem(key: string): any
 secureStorage.removeItem(key: string): void
@@ -234,7 +234,7 @@ VITE_ENCRYPTION_KEY=production-encryption-key
 
 ### Data Privacy
 - **Local Storage** - All data stored locally on device
-- **Encryption** - Sensitive data encrypted with AES-256
+- **Encryption** - Demo obfuscation in dev; use AES-GCM (WebCrypto) for production
 - **No Cloud Sync** - Data never transmitted to external servers
 - **User Control** - Full control over data export and deletion
 
@@ -278,7 +278,7 @@ src/
 ### Optimization Features
 - **Code Splitting** - Lazy loading of components
 - **Image Compression** - Automatic image optimization
-- **Bundle Analysis** - Webpack bundle analyzer
+- **Bundle Analysis** - Vite bundle analyzer
 - **Caching** - Service worker caching strategy
 
 ### Performance Monitoring

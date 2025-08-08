@@ -3,17 +3,18 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 // Removed lovable-tagger import
 import viteCompression from 'vite-plugin-compression';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: true,
-    port: 3000,
+    port: 3002,
     hmr: {
       host: 'localhost',
       protocol: 'ws',
-      port: 3000,
-      clientPort: 3000,
+      port: 3002,
+      clientPort: 3002,
       path: '/ws',
       overlay: false,
     },
@@ -26,7 +27,15 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     viteCompression({ algorithm: 'gzip' }),
-    viteCompression({ algorithm: 'brotliCompress' })
+    viteCompression({ algorithm: 'brotliCompress' }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico', 'placeholder.svg'],
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+      manifest: false,
+    })
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -71,7 +80,7 @@ export default defineConfig(({ mode }) => ({
           // Charts and Data Visualization
           'charts': ['recharts', 'd3-scale', 'd3-array', 'd3-time', 'd3-format'],
           // Utilities
-          'utils': ['lodash', 'date-fns', 'clsx', 'tailwind-merge'],
+          'utils': ['date-fns', 'clsx', 'tailwind-merge'],
           // Form handling
           'forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
           // Icons
@@ -110,7 +119,6 @@ export default defineConfig(({ mode }) => ({
       '@tanstack/react-query',
       'lucide-react',
       'recharts',
-      'lodash',
       'date-fns',
       'clsx',
       'tailwind-merge'
